@@ -161,29 +161,15 @@ export function CompassScreen({
                 key={member.id}
                 className="bg-white rounded-lg p-4 shadow-md"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center flex-1">
-                    <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
                       {member.name.charAt(0).toUpperCase()}
                     </div>
-                    <div className="flex-1">
-                      <div className="font-semibold text-gray-900">
+                    <div>
+                      <div className="font-bold text-lg text-gray-900">
                         {member.name}
                       </div>
-                      {distance !== null ? (
-                        <div className="text-sm text-gray-600">
-                          {formatDistance(distance)}
-                          {bearing !== null && (
-                            <span className="ml-2 font-medium">
-                              {getDirectionName(bearing)}
-                            </span>
-                          )}
-                        </div>
-                      ) : (
-                        <div className="text-xs text-gray-500">
-                          位置情報を待機中...
-                        </div>
-                      )}
                     </div>
                   </div>
 
@@ -191,17 +177,51 @@ export function CompassScreen({
                   {relativeDirection !== null && (
                     <div className="ml-3">
                       <div
-                        className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center"
+                        className="w-14 h-14 bg-indigo-100 rounded-full flex items-center justify-center shadow-md"
                         style={{
                           transform: `rotate(${relativeDirection}deg)`,
                           transition: 'transform 0.3s ease-out',
                         }}
                       >
-                        <Navigation className="w-6 h-6 text-indigo-600" fill="currentColor" />
+                        <Navigation className="w-7 h-7 text-indigo-600" fill="currentColor" />
                       </div>
                     </div>
                   )}
                 </div>
+
+                {/* Distance and Direction Info */}
+                {distance !== null ? (
+                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-3 border border-blue-200">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <MapPin className="w-5 h-5 text-blue-600 mr-2" />
+                        <div>
+                          <div className="text-xs text-gray-600 mb-1">距離</div>
+                          <div className="text-2xl font-bold text-blue-700">
+                            {formatDistance(distance)}
+                          </div>
+                        </div>
+                      </div>
+                      {bearing !== null && (
+                        <div className="text-right">
+                          <div className="text-xs text-gray-600 mb-1">方角</div>
+                          <div className="text-xl font-bold text-purple-700">
+                            {getDirectionName(bearing)}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {Math.round(bearing)}°
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-gray-50 rounded-lg p-3 text-center">
+                    <div className="text-sm text-gray-500">
+                      位置情報を待機中...
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}
